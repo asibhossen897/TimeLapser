@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="time_lapser",
+    name="timelapser",
     version="0.1",
     packages=find_packages(),
     install_requires=[
@@ -12,7 +12,7 @@ setup(
         "pynput",
         "rich",
     ],
-    entry_points={"console_scripts": ["time-lapser=time_lapser.main:app"]},
+    entry_points={"console_scripts": ["timelapser=timelapser.main:app"]},
     author="Asib Hossen",
     author_email="dev.asib@proton.me",
     description="Record and save time-lapse videos while you work.",
