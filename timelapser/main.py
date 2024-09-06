@@ -24,7 +24,7 @@ def on_press(key):
                 style="red",
             ))
 
-            user_input = input(">> ")
+            user_input = input("❯❯ ")
             if user_input.lower() == "y":
                 stop_recording = True
     except AttributeError:
@@ -33,10 +33,10 @@ def on_press(key):
 
 @app.command()
 def record(
-    fps: int = 100,
-    mp4: bool = True,
-    monitor_index: int = 0,
-    output_dir: str = "Outputs",
+        fps: int = 100,
+        mp4: bool = True,
+        monitor_index: int = 0,
+        output_dir: str = "Outputs",
 ):
     """
     Start recording from the selected monitor.
