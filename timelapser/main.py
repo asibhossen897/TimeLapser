@@ -5,7 +5,7 @@ import mss
 from rich import print
 from rich.table import Table
 from rich.panel import Panel
-from .recorder import create_video, record
+from .recorder import create_video, recorder
 from .utils import display_timer, console
 
 app = typer.Typer()
@@ -16,14 +16,14 @@ stop_recording = False
 def on_press(key):
     global stop_recording
     try:
-        if key.char == "q":
+        if key.char == "Q":
             stop_recording = True
     except AttributeError:
         pass
 
 
 @app.command()
-def start(
+def record(
     fps: int = 100,
     mp4: bool = True,
     monitor_index: int = 0,
@@ -64,7 +64,7 @@ def start(
         current_time = time.time()
         elapsed_time = current_time - start_time
         display_timer(console, elapsed_time)
-        record(out, selected_monitor)
+        recorder(out, selected_monitor)
         time.sleep(0.1)
 
     listener.stop()

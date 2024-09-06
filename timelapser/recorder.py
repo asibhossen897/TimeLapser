@@ -27,7 +27,7 @@ def create_video(fps: int, mp4: bool, screen_size, output_dir: str = "Outputs"):
     return out, file_path
 
 
-def record(out, monitor):
+def recorder(out, monitor):
     with mss.mss() as sct:
         screenshot = sct.grab(monitor)
         frame = np.array(screenshot)
