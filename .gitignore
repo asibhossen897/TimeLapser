@@ -1,3 +1,10 @@
+# TimeLapser
+Outputs/
+utils.py
+
+# Ruff
+.ruff_cache/
+
 # PyCharm
 .idea/
 
@@ -7,6 +14,7 @@
 *.egg-info/
 dist/
 build/
+__pycache__/
 
 # OS
 .DS_Store

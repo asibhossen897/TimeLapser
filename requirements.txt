@@ -1,6 +1,6 @@
 typer
-opencv-python
+opencv-python-headless
 numpy
-pyautogui
-keyboard
-pygetwindow
+pynput
+mss
+rich
