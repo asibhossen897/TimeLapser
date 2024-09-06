@@ -17,7 +17,16 @@ def on_press(key):
     global stop_recording
     try:
         if key.char == "Q":
-            stop_recording = True
+            console.print(Panel(
+                "[bold red]Are you sure you want to stop recording? (y/n): [/bold red]",
+                border_style="bold red",
+                title="Warning!",
+                style="red",
+            ))
+
+            user_input = input(">> ")
+            if user_input.lower() == "y":
+                stop_recording = True
     except AttributeError:
         pass
 
@@ -49,7 +58,7 @@ def record(
 
     print(
         Panel(
-            f"[bold green]Recording from monitor: [/bold green][bold magenta]{monitor_index}[/bold magenta]\n[bold red]Press 'Q' to stop recording![/bold red]",
+            f"[bold green]Recording from monitor: [/bold green][bold magenta]{monitor_index} [{screen_size[0]}x{screen_size[1]}] [/bold magenta]\n[bold red]Press 'Q' to stop recording![/bold red]",
             border_style="bold green",
             title="Recording Status",
             style="green",
@@ -63,7 +72,7 @@ def record(
     while not stop_recording:
         current_time = time.time()
         elapsed_time = current_time - start_time
-        display_timer(console, elapsed_time)
+        # display_timer(console, elapsed_time)
         recorder(out, selected_monitor)
         time.sleep(0.1)
 
@@ -74,7 +83,8 @@ def record(
 
     print(
         Panel(
-            f"[bold green]Recording finished and saved.[/bold green]\n[bold magenta]File saved at: {file_path}[/bold magenta]",
+            f"[bold green]Recording finished and saved.[/bold green]\n"
+            f"[bold magenta]File saved at: {file_path}[/bold magenta]",
             border_style="bold green",
             title="Recording Status",
             subtitle="File saved successfully",

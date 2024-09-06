@@ -36,4 +36,4 @@ def result_format(mp4: bool):
 
 
 def result_format_codec(mp4: bool):
-    return "MP4V" if mp4 else "XVID"
+    return "mp4v" if mp4 else "XVID"
