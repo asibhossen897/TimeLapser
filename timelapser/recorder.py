@@ -15,7 +15,7 @@ def mkdir(path):
 
 def create_video(fps: int, mp4: bool, screen_size, output_dir: str = "Outputs"):
     mkdir(output_dir)
-    file_path = f"{output_dir}/FrameRecorder_{find_time()}{result_format(mp4)}"
+    file_path = f"{output_dir}/TimeLapser_{find_time()}{result_format(mp4)}"
 
     fourcc = cv.VideoWriter_fourcc(*result_format_codec(mp4))
     out = cv.VideoWriter(
