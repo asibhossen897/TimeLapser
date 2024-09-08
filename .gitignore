@@ -1,5 +1,6 @@
 # TimeLapser
 Outputs/
+setup.py
 
 # Ruff
 .ruff_cache/
