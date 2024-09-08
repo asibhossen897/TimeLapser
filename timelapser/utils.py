@@ -1,6 +1,7 @@
 import datetime
 import time
 from rich.console import Console
+from rich.panel import Panel
 
 console = Console()
 
@@ -37,3 +38,21 @@ def result_format(mp4: bool):
 
 def result_format_codec(mp4: bool):
     return "mp4v" if mp4 else "XVID"
+
+
+def colorize_text(text: str, color: str = "green", style: str = "bold"):
+    colored_text = f"[{style} {color}]{text}[/{style} {color}]"
+    return colored_text
+
+
+def rich_panel(
+    text: str,
+    title: str,
+    border_style: str = "bold green",
+    subtitle: str | None = None,
+    style: str = "green",
+):
+    panel = Panel(
+        text, title=title, border_style=border_style, subtitle=subtitle, style=style
+    )
+    return panel
