@@ -13,7 +13,12 @@ def mkdir(path):
         os.makedirs(path)
 
 
-def create_video(fps: int, mp4: bool, screen_size, output_dir: str = "Outputs"):
+def create_video(
+        fps: int,
+        mp4: bool,
+        screen_size,
+        output_dir: str = "Outputs"
+):
     mkdir(output_dir)
     file_path = f"{output_dir}/TimeLapser_{find_time()}{result_format(mp4)}"
 
@@ -27,10 +32,15 @@ def create_video(fps: int, mp4: bool, screen_size, output_dir: str = "Outputs"):
     return out, file_path
 
 
-def recorder(out, monitor):
+def recorder(out, monitor, screen_size):
     with mss.mss() as sct:
         screenshot = sct.grab(monitor)
         frame = np.array(screenshot)
+
+        # Resize frame to custom size if provided
+        frame = cv.resize(frame, screen_size)
+
+        # Removing the alpha transparency channel to avoid color changing issues
         if frame.shape[2] == 4:
             frame = frame[:, :, :3]
         out.write(frame)

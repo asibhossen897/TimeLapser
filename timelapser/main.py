@@ -6,7 +6,7 @@ from rich import print
 from rich.table import Table
 from rich.panel import Panel
 from .recorder import create_video, recorder
-from .utils import display_timer, console
+from .utils import display_timer, console, colorize_text, rich_panel
 
 app = typer.Typer()
 
@@ -37,6 +37,8 @@ def record(
         mp4: bool = True,
         monitor_index: int = 0,
         output_dir: str = "Outputs",
+        width: str = None,
+        height: str = None,
 ):
     """
     Start recording from the selected monitor.
@@ -49,21 +51,28 @@ def record(
     """
     monitors = mss.mss().monitors
     if monitor_index < 0 or monitor_index >= len(monitors):
-        typer.echo("Invalid monitor index. Please provide a valid index.")
+        monitor_index_error_message = colorize_text("Invalid monitor index. Please provide a valid index.", "red")
+        print(monitor_index_error_message)
         raise typer.Exit()
 
     selected_monitor = monitors[monitor_index]
-    screen_size = (selected_monitor["width"], selected_monitor["height"])
+
+    # Use provided width and height or default to monitor's size
+    screen_width = int(width) if width else selected_monitor["width"]
+    screen_height = int(height) if height else selected_monitor["height"]
+    screen_size = (screen_width, screen_height)
+
     out, file_path = create_video(fps, mp4, screen_size, output_dir)
 
-    print(
-        Panel(
-            f"[bold green]Recording from monitor: [/bold green][bold magenta]{monitor_index} [{screen_size[0]}x{screen_size[1]}] [/bold magenta]\n[bold red]Press 'Q' to stop recording![/bold red]",
-            border_style="bold green",
-            title="Recording Status",
-            style="green",
-        )
+    recording_started_message = colorize_text(f"Recording from monitor: ", "green") + colorize_text(f"{monitor_index} [{screen_size[0]}x{screen_size[1]}]", "magenta") + colorize_text("\nPress 'Q' to stop recording!", "red")
+
+    print(rich_panel(
+        recording_started_message,
+        border_style="bold green",
+        title="Recording Status",
+        style="green")
     )
+
     listener = keyboard.Listener(on_press=on_press)
     listener.start()
 
@@ -73,7 +82,7 @@ def record(
         current_time = time.time()
         elapsed_time = current_time - start_time
         # display_timer(console, elapsed_time)
-        recorder(out, selected_monitor)
+        recorder(out, selected_monitor, screen_size)
         time.sleep(0.1)
 
     listener.stop()
@@ -81,14 +90,14 @@ def record(
 
     console.print(" " * 50, end="\r")
 
+    recording_finished_message = colorize_text("Recording finished and saved.\n", "green") + colorize_text(f"File saved at: {file_path}", "magenta")
+
     print(
-        Panel(
-            f"[bold green]Recording finished and saved.[/bold green]\n"
-            f"[bold magenta]File saved at: {file_path}[/bold magenta]",
+        rich_panel(
+            recording_finished_message,
             border_style="bold green",
             title="Recording Status",
             subtitle="File saved successfully",
-            style="green",
         )
     )
 
